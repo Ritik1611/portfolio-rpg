@@ -1,0 +1,117 @@
+.ac-panel {
+  width: 100%;
+  max-width: 760px;
+  max-height: 88vh;
+  background: #0c0f14;
+  border: 2px solid #3a3f5c;
+  box-shadow: 0 0 0 3px #ffcd75, 10px 10px 0 rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: ctPanelIn 0.18s ease-out;
+}
+
+.ac-body {
+  padding: 18px 20px 24px;
+  overflow-y: auto;
+  color: #f4e9d8;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+.ac-intro {
+  font-size: 14px;
+  color: #8890b5;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.ac-track {
+  margin-bottom: 22px;
+}
+
+.ac-track-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #ffcd75;
+  margin-bottom: 12px;
+}
+
+.ac-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.ac-node {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  background: #14171f;
+  border: 2px solid;
+  padding: 8px 12px;
+  cursor: pointer;
+  min-width: 108px;
+  transition: transform 0.08s ease;
+}
+.ac-node:hover {
+  transform: translateY(-2px);
+}
+.ac-node.active {
+  background: #1c2a1c;
+}
+
+.ac-node-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 2px solid;
+}
+
+.ac-node-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #f4e9d8;
+}
+
+.ac-node-detail {
+  font-size: 11px;
+  color: #8890b5;
+  line-height: 1.3;
+}
+
+.ac-arrow {
+  color: #5a6072;
+  font-size: 16px;
+}
+
+.ac-error {
+  font-size: 13px;
+  color: #ef476f;
+  background: rgba(239, 71, 111, 0.1);
+  border-left: 3px solid #ef476f;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+}
+
+.ac-progress {
+  font-size: 13px;
+  color: #8890b5;
+}
+
+.ac-complete {
+  text-align: center;
+  padding: 12px 0 4px;
+}
+
+.ac-complete-title {
+  font-size: 15px;
+  color: #6fcf7a;
+  margin-bottom: 14px;
+}
+
+.ac-complete .ct-return-btn {
+  width: auto;
+  padding: 12px 20px;
+}
