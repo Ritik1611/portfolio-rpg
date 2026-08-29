@@ -3,6 +3,7 @@ import { GAME_WIDTH, GAME_HEIGHT, THEME } from './config'
 import { BootScene } from './scenes/BootScene'
 import { PreloadScene } from './scenes/PreloadScene'
 import { MainMenuScene } from './scenes/MainMenuScene'
+import { SpeedrunScene } from './scenes/SpeedrunScene'
 import { OpeningScene } from './scenes/OpeningScene'
 import { VillageScene } from './scenes/VillageScene'
 import { InteriorScene } from './scenes/InteriorScene'
@@ -21,7 +22,7 @@ export function createGame(parent: HTMLElement): Phaser.Game {
       default: 'arcade',
       arcade: { gravity: { x: 0, y: 0 }, debug: false },
     },
-    scene: [BootScene, PreloadScene, MainMenuScene, OpeningScene, VillageScene, InteriorScene, DungeonScene, BattleScene],
+    scene: [BootScene, PreloadScene, MainMenuScene, SpeedrunScene, OpeningScene, VillageScene, InteriorScene, DungeonScene, BattleScene],
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,

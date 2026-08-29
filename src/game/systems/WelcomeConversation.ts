@@ -6,6 +6,7 @@ import { ChoiceMenu } from '../objects/ChoiceMenu'
 import { PROFILE, VISITOR_LINES } from '../../data/profile'
 import type { VisitorMode } from '../../data/profile'
 import { timeGreeting } from '../data/npcs'
+import { logVisitor } from '../../firebase'
 
 const OPENING_LINES = [
   `Oh! ${timeGreeting()} You found my lab.`,
@@ -135,6 +136,7 @@ function finishRoleChoice(
   save.hasCompletedIntro = true
   scene.registry.set('save', save)
   writeSave(save)
+  void logVisitor({ name: save.playerName, visitorMode: mode })
 
   dialogueBox.setVisible(true)
   dialogueBox.setPortrait(portraitKey)

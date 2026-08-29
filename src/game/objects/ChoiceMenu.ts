@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import { THEME, FONT_BODY } from '../config'
-import { hexToNum } from './DialogueBox'
+import { hexToNum } from '../objects/DialogueBox'
 
 interface ChoiceMenuOptions {
   x: number
@@ -19,7 +19,7 @@ export class ChoiceMenu {
   private cursor: Phaser.GameObjects.Text
   private selected = 0
   private opts: ChoiceMenuOptions
-  private keyHandlers: Array<[string, () => void]> = []
+  private keyHandlers: Array<[string, (event?: KeyboardEvent) => void]> = []
 
   constructor(scene: Phaser.Scene, opts: ChoiceMenuOptions) {
     this.scene = scene
@@ -52,7 +52,12 @@ export class ChoiceMenu {
 
     const up = () => this.setSelected((this.selected - 1 + this.items.length) % this.items.length)
     const down = () => this.setSelected((this.selected + 1) % this.items.length)
-    const confirm = () => this.confirm(this.selected)
+    // Ignore OS key-repeat events — holding Enter should select once, not
+    // repeatedly re-fire while a new ChoiceMenu is mid-rebuild underneath it.
+    const confirm = (event?: KeyboardEvent) => {
+      if (event?.repeat) return
+      this.confirm(this.selected)
+    }
 
     scene.input.keyboard?.on('keydown-UP', up)
     scene.input.keyboard?.on('keydown-DOWN', down)
@@ -84,5 +89,4 @@ export class ChoiceMenu {
   }
 }
 
-// re-export for scenes that only need the color helper alongside this file
 export { hexToNum }

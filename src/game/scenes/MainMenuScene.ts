@@ -19,7 +19,6 @@ export class MainMenuScene extends Phaser.Scene {
     const save = this.registry.get('save') as SaveData
     this.lastIndex = 0
 
-    // decorative scanline-ish frame
     this.add
       .rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH - 12, GAME_HEIGHT - 12)
       .setStrokeStyle(3, hexToNum(THEME.steelGrey))
@@ -84,7 +83,7 @@ export class MainMenuScene extends Phaser.Scene {
   private handleSelect(index: number) {
     this.lastIndex = index
     switch (index) {
-      case 0: { // Begin Adventure
+      case 0: {
         const save = this.registry.get('save') as SaveData
         const target = save.hasCompletedIntro ? 'Village' : 'Opening'
         this.cameras.main.fadeOut(300, 0, 0, 0)
@@ -93,18 +92,25 @@ export class MainMenuScene extends Phaser.Scene {
         })
         break
       }
-      case 1: // Speedrun — jumps straight to the summary, skipping the story
-        window.dispatchEvent(new CustomEvent('open-trainer-card'))
-        this.showMenu()
+      case 1: {
+        this.cameras.main.fadeOut(250, 0, 0, 0)
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+          this.scene.start('Speedrun')
+        })
         break
-      case 2: // Trainer Card
+      }
+      case 2: { // Trainer Card
+        this.cameras.main.flash(180, 26, 28, 44, false)
         window.dispatchEvent(new CustomEvent('open-trainer-card'))
-        this.showMenu()
+        this.time.delayedCall(0, () => this.showMenu())
         break
-      case 3: // Settings
+      }
+      case 3: { // Settings
+        this.cameras.main.flash(180, 26, 28, 44, false)
         window.dispatchEvent(new CustomEvent('open-settings'))
-        this.showMenu()
+        this.time.delayedCall(0, () => this.showMenu())
         break
+      }
     }
   }
 }
