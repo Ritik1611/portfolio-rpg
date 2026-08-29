@@ -24,11 +24,16 @@ function SkillList({ skills, levels }: { skills: string[]; levels: Record<string
 export function TrainerCard() {
   const close = useUIStore((s) => s.closeTrainerCard)
   const save = useUIStore((s) => s.saveSnapshot)
-  const closeBtnRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
   const levels = save?.skillLevels ?? {}
 
   useEffect(() => {
-    closeBtnRef.current?.focus()
+    // Focus the panel itself, NOT an interactive button — focusing a
+    // <button> here races the tail end of the same Enter keypress that
+    // opened this modal (browsers fire a synthetic click on a focused
+    // button on keyup), which was silently closing the modal the instant
+    // it opened when triggered via keyboard.
+    panelRef.current?.focus()
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close()
     }
@@ -44,6 +49,8 @@ export function TrainerCard() {
   return (
     <div className="modal-backdrop" onClick={close}>
       <div
+        ref={panelRef}
+        tabIndex={-1}
         className="modal-panel"
         role="dialog"
         aria-modal="true"
@@ -52,11 +59,10 @@ export function TrainerCard() {
       >
         <div className="modal-header">
           <span>TRAINER CARD</span>
-          <button ref={closeBtnRef} className="modal-close" onClick={close}>
+          <button className="modal-close" onClick={close}>
             CLOSE
           </button>
         </div>
-
         <div className="modal-body">
           <div className="tc-top">
             <div className="tc-avatar" aria-hidden="true">
@@ -76,7 +82,6 @@ export function TrainerCard() {
               )}
             </div>
           </div>
-
           <div className="tc-section">
             <span className="tc-section-title">Badges · Certifications</span>
             <div className="tc-badges">
@@ -90,7 +95,6 @@ export function TrainerCard() {
               ))}
             </div>
           </div>
-
           <div className="tc-section">
             <span className="tc-section-title">Education</span>
             {PROFILE.education.map((e) => (
@@ -103,7 +107,6 @@ export function TrainerCard() {
               </div>
             ))}
           </div>
-
           <div className="tc-section">
             <span className="tc-section-title">Party · Projects</span>
             {PROFILE.projects.map((p) => (
@@ -138,7 +141,6 @@ export function TrainerCard() {
               </div>
             ))}
           </div>
-
           <div className="tc-section">
             <span className="tc-section-title">Gym Battles · Experience</span>
             {PROFILE.employment.map((job) => (
@@ -160,7 +162,6 @@ export function TrainerCard() {
               </div>
             ))}
           </div>
-
           <div className="tc-section">
             <span className="tc-section-title">Inventory · Skills</span>
             <div className="tc-skill-group">
@@ -188,7 +189,6 @@ export function TrainerCard() {
               <SkillList skills={PROFILE.skills.soft} levels={levels} />
             </div>
           </div>
-
           <div className="tc-actions">
             <a className="tc-btn" href={PROFILE.resumeFile} download>
               Download Resume

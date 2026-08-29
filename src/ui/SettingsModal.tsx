@@ -5,10 +5,14 @@ import './Modal.css'
 
 export function SettingsModal() {
   const close = useUIStore((s) => s.closeSettings)
-  const closeBtnRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    closeBtnRef.current?.focus()
+    // Focus the panel itself, not the CLOSE button — focusing a <button>
+    // here races the tail end of the same Enter keypress that opened this
+    // modal (browsers fire a synthetic click on a focused button on keyup),
+    // which was closing it instantly when opened via keyboard.
+    panelRef.current?.focus()
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close()
     }
@@ -26,6 +30,8 @@ export function SettingsModal() {
   return (
     <div className="modal-backdrop" onClick={close}>
       <div
+        ref={panelRef}
+        tabIndex={-1}
         className="modal-panel"
         style={{ maxWidth: 360 }}
         role="dialog"
@@ -35,7 +41,7 @@ export function SettingsModal() {
       >
         <div className="modal-header">
           <span>SETTINGS</span>
-          <button ref={closeBtnRef} className="modal-close" onClick={close}>
+          <button className="modal-close" onClick={close}>
             CLOSE
           </button>
         </div>
